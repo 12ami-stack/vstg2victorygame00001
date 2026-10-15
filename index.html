@@ -45,7 +45,7 @@
         <div class="meter-cell" id="cell-7"><span>8.MEGA</span><span id="lv-7">LV0</span></div>
     </div>
 </div>
-<div id="instructions">【Controls】 Arrow Keys : Move / Space : Shoot / Enter : Power-Up<br><b>The ship only speaks when powering up (Enter key).</b></div>
+<div id="instructions">【Controls】 Arrow Keys : Move / Space : Shoot / Enter : Power-Up<br><b>The ship speaks when powering up (Enter key). Leave a capsule unequipped and its developer will start pitching you in yellow.</b></div>
 
 <script>
 const canvas = document.getElementById('gameCanvas'), ctx = canvas.getContext('2d'), dialogueBox = document.getElementById('dialogue-box');
@@ -164,15 +164,74 @@ const longQuotes = {
     }
 };
 
+
+const salesQuotes = {
+    JP: {
+        names: ["推進機関開発 タナカ","ミサイル開発 ゴウダ","ダブルショット開発 ミナミ","レーザー開発 サイトウ","オプション開発 ホシノ","シールド開発 カワムラ","ワイドショット開発 オオタ","メガ・ブレイカー開発 クロガネ博士"],
+        lines: [
+            ["お客さん、今ならスラスター強化がお買い得ですよ！カプセルを持っているだけじゃ速くなりません、早く装備してください！","その赤いカプセル、使わないと宝の持ち腐れです。今すぐ装備！スピードがグンと上がりますよ！","機動性は命です！Enterキーで装備を。迷っているうちに撃墜されても、返品は受け付けませんよ！"],
+            ["ミサイルポッドは今が旬、お買い得ですよ！カプセルを抱えたままでは宝の持ち腐れ、早く装備してください！","火力が命！うちのミサイルは追加料金なしでレベルアップ。さあ、今すぐ装備を！","迷ってる暇はありませんよ、お客さん！装備してくれたらミサイルの雨を降らせます、お買い得です！"],
+            ["ダブルショットが今ならお得！一発より二発、お得に決まってます。早く装備してください！","死角からの敵が怖くないんですか？ダブルショットなら安心、今だけの特価です、早く装備を！","カプセルを持ったままじゃ元が取れませんよ！装備して撃ちまくってください、お買い得です！"],
+            ["レーザーの貫通力は業界随一！今ならお買い得です。さあ早く装備してください！","そのカプセル、レーザーに使うなら今です！装甲も一刀両断、早く装備してくださいよ！","お客さん、レーザーは使ってこそ価値があるんです。大特価のうちに、今すぐ装備を！"],
+            ["オプションドローン、今ならお買い得ですよ！仲間は多いほど心強い、早く装備してください！","一人で戦うなんて寂しいですよ。ドローンが追加料金なしでお供します、さあ装備を！","カプセルを持て余してませんか？オプションを付けるなら今がチャンス、早く装備してください！"],
+            ["シールドは命の保険です！今ならお買い得、早く装備してください！","撃墜されてからでは遅いですよ、お客さん！シールドを装備すれば安心、今すぐどうぞ！","その赤いカプセル、シールドに使えば鉄壁です。大特価のうちに装備してくださいね！"],
+            ["ワイドショットは広範囲をカバー、今ならお買い得です！早く装備してください！","敵に囲まれてからでは遅いですよ！ワイドショットで一網打尽、今すぐ装備を！","カプセルを持ち腐れにするなんてもったいない！ワイドショットを装備して、弾幕の花を咲かせましょう！"],
+            ["メガ・ブレイカーは当社の最高傑作！貫通力は最強、今ならお買い得です、早く装備してください！","全てを貫く一撃、他社には真似できません！今すぐ装備しないと後悔しますよ、お客さん！","最強の看板商品を使わないなんて！お買い得のうちに、早く装備してください！"]
+        ]
+    },
+    EN: {
+        names: ["Thruster Dev. Tanaka","Missile Dev. Gouda","Double Shot Dev. Minami","Laser Dev. Saito","Option Dev. Hoshino","Shield Dev. Kawamura","Wide Shot Dev. Ota","Mega Breaker Dev. Dr. Kurogane"],
+        lines: [
+            ["Hey pilot, thruster upgrades are on sale now! A capsule in your pocket does nothing, so equip it quick!","Don't let that capsule gather dust! Equip now and feel the speed. What a bargain!","Speed saves lives! Hit Enter and equip before the offer ends. No refunds if you get shot down!"],
+            ["Missile pods are a real bargain today! Don't just sit on that capsule, equip it quickly!","Firepower is everything! Our missiles level up at no extra charge. Equip now!","No time to dither, pilot! Equip it and I'll rain missiles down on them. Great deal!"],
+            ["Double Shot is a steal right now! Two shots beat one, obviously. Equip it quickly!","Not afraid of enemies in your blind spot? Double Shot has you covered. Limited-time price, equip now!","You won't get your money's worth holding that capsule! Equip it and fire away. Bargain!"],
+            ["Our laser pierces better than anything on the market! Great price today, so equip it quickly!","Swap that capsule for a laser now! Cuts through armor like butter. Hurry and equip!","A laser is only worth something when it's used, pilot. Equip it while the price is low!"],
+            ["Option drones are on special! More friends means more firepower. Equip them quickly!","Fighting alone is lonely! A drone joins you at no extra charge. Equip now!","Got a spare capsule? Now's your chance to add an Option. Hurry and equip!"],
+            ["A shield is life insurance, pilot! Great price today, so equip it quickly!","It's too late once you're shot down! Equip a shield for peace of mind, right now!","Spend that capsule on a shield and you're rock solid. Equip it while the price is low!"],
+            ["Wide Shot covers a huge area and it's a bargain today! Equip it quickly!","Too late once you're surrounded! Wide Shot sweeps them all away. Equip it now!","Wasting that capsule would be a shame! Equip Wide Shot and fill the sky with bullets!"],
+            ["The Mega Breaker is our masterpiece! Strongest piercing power, and a bargain today. Equip it quickly!","One shot through everything. Nobody else can match it! Equip now or you'll regret it!","You're not using our flagship product?! Equip it quickly while the price lasts!"]
+        ]
+    },
+    DE: {
+        names: ["Schub-Entwicklung Tanaka","Raketen-Entwicklung Gouda","Doppelschuss-Entwicklung Minami","Laser-Entwicklung Saito","Option-Entwicklung Hoshino","Schild-Entwicklung Kawamura","Breitschuss-Entwicklung Ota","Mega-Breaker-Entwicklung Dr. Kurogane"],
+        lines: [
+            ["Schubverstärkung jetzt im Angebot, Pilot! Die Kapsel in der Tasche bringt nichts, schnell ausrüsten!","Lassen Sie die Kapsel nicht verstauben! Jetzt ausrüsten und die Geschwindigkeit spüren. Ein Schnäppchen!","Tempo rettet Leben! Enter drücken, bevor das Angebot endet. Keine Rückgabe bei Abschuss!"],
+            ["Raketenpods heute ein echtes Schnäppchen! Kapsel nicht horten, schnell ausrüsten!","Feuerkraft ist alles! Unsere Raketen werden ohne Aufpreis verbessert. Jetzt ausrüsten!","Keine Zeit zum Zögern, Pilot! Ausrüsten, und ich lasse Raketen regnen. Super Preis!"],
+            ["Doppelschuss ist jetzt ein Schnäppchen! Zwei Schüsse sind besser als einer. Schnell ausrüsten!","Keine Angst vor Feinden aus dem toten Winkel? Mit Doppelschuss sind Sie sicher. Nur kurze Zeit, jetzt ausrüsten!","Mit der Kapsel in der Tasche lohnt sich der Kauf nicht! Ausrüsten und losfeuern. Schnäppchen!"],
+            ["Unser Laser durchdringt alles am Markt! Heute günstig, also schnell ausrüsten!","Tauschen Sie die Kapsel jetzt gegen einen Laser! Schneidet durch Panzerung wie Butter. Schnell ausrüsten!","Ein Laser ist nur etwas wert, wenn man ihn benutzt, Pilot. Ausrüsten, solange er günstig ist!"],
+            ["Optionsdrohnen im Sonderangebot! Mehr Freunde, mehr Feuerkraft. Schnell ausrüsten!","Allein kämpfen ist einsam! Eine Drohne begleitet Sie ohne Aufpreis. Jetzt ausrüsten!","Eine Kapsel übrig? Jetzt ist die Gelegenheit für eine Option. Schnell ausrüsten!"],
+            ["Ein Schild ist Ihre Lebensversicherung, Pilot! Heute günstig, schnell ausrüsten!","Nach dem Abschuss ist es zu spät! Mit Schild sind Sie sicher, jetzt ausrüsten!","Setzen Sie die Kapsel für ein Schild ein, und Sie sind bombensicher. Ausrüsten, solange es günstig ist!"],
+            ["Breitschuss deckt ein riesiges Gebiet ab und ist heute ein Schnäppchen! Schnell ausrüsten!","Umzingelt ist es zu spät! Breitschuss fegt alle weg. Jetzt ausrüsten!","Die Kapsel zu verschwenden wäre schade! Breitschuss ausrüsten und den Himmel mit Kugeln füllen!"],
+            ["Der Mega-Breaker ist unser Meisterstück! Stärkste Durchschlagskraft, heute ein Schnäppchen. Schnell ausrüsten!","Ein Schuss durch alles. Das kann kein anderer! Jetzt ausrüsten, sonst bereuen Sie es!","Sie nutzen unser Flaggschiff nicht?! Schnell ausrüsten, solange der Preis gilt!"]
+        ]
+    }
+};
+
+// 未装備のカプセルを持ったまま一定時間たつと、開発者が営業アナウンスを流す
+const SALES_INTERVAL = 6000; // ms
+let capsuleSince = 0, lastSpeakAt = 0, salesCount = [0,0,0,0,0,0,0,0];
+
+function checkSales() {
+    if (currentCapsules === 0) return;
+    let stage = currentCapsules - 1;
+    if (levels[stage] >= 3) return; // 装備できない(上限)場合は営業しない
+    if (Date.now() - Math.max(capsuleSince, lastSpeakAt) < SALES_INTERVAL) return;
+    let data = salesQuotes[currentLang], arr = data.lines[stage];
+    speak(arr[salesCount[stage]++ % arr.length], { prefix: data.names[stage], yellow: true });
+}
+
 function getQuote(stage) {
     let currentLv = levels[stage];
     if (currentLv === 0) return "";
     return longQuotes[currentLang].stages[stage * 3 + (currentLv - 1)];
 }
 
-function speak(txt) {
+function speak(txt, opts) {
     if(!txt) return;
-    let prefix = currentLang === 'JP' ? 'System' : currentLang === 'DE' ? 'System' : 'System';
+    lastSpeakAt = Date.now();
+    let prefix = (opts && opts.prefix) ? opts.prefix : 'System';
+    let tone = (opts && opts.yellow) ? '#ffff00' : '#00ffcc';
+    dialogueBox.style.color = tone; dialogueBox.style.borderColor = tone;
     dialogueBox.innerText = `${prefix}: "${txt}"`; 
     dialogueBox.style.opacity = 1;
     if (dialogueBox.timer) clearTimeout(dialogueBox.timer);
@@ -250,6 +309,7 @@ function updatePowerMeter() {
 
 function update() {
     if (gameOver) return;
+    checkSales();
     if (keys['ArrowUp'] && player.y > 0) player.y -= player.speed; 
     if (keys['ArrowDown'] && player.y < canvas.height - player.h) player.y += player.speed; 
     if (keys['ArrowLeft'] && player.x > 0) player.x -= player.speed; 
@@ -308,9 +368,10 @@ function update() {
             let b = bullets[bi];
             if (!b) continue;
             let bW = b.type==='laser'?(20+b.lv*20):b.type==='mega'?(15+b.lv*10):8, bH = b.type==='laser'?(2+b.lv*2):b.type==='mega'?(10+b.lv*10):4;
-            if (b.x < e.x + e.w && b.x + bW > e.x && b.y < e.y + e.h && b.y + bH > e.y) {
-                e.hp -= (b.type==='mega' ? b.lv * 3 : b.type==='laser' ? b.lv : 1); 
-                if(b.type !== 'laser') bullets.splice(bi, 1);
+            let bY = b.type==='mega' ? b.y - bH/2 : b.y;
+            if (b.x < e.x + e.w && b.x + bW > e.x && bY < e.y + e.h && bY + bH > e.y) {
+                e.hp -= (b.type==='mega' ? 9999 : b.type==='laser' ? b.lv : 1); // MEGAは一撃必殺 
+                if(b.type !== 'laser' && b.type !== 'mega') bullets.splice(bi, 1); // MEGAは貫通
                 if(e.hp <= 0) { 
                     if(Math.random() < 0.4) capsules.push({x: e.x, y: e.y, w: 15, h: 15}); 
                     for(let p=0; p<8; p++) particles.push({x: e.x, y: e.y, vx: (Math.random()-0.5)*6, vy: (Math.random()-0.5)*6, r: 4, alpha: 1}); 
@@ -328,6 +389,7 @@ function update() {
         if (player.x < c.x + c.w && player.x + player.w > c.x && player.y < c.y + c.h && player.y + player.h > c.y) { 
             capsules.splice(ci, 1); 
             currentCapsules = (currentCapsules % MAX_STAGES) + 1; 
+            capsuleSince = Date.now();
             updatePowerMeter(); 
         } else if(c.x < -c.w) {
             capsules.splice(ci, 1); 
