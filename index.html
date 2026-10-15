@@ -270,7 +270,7 @@ function update() {
         if(levels[6] >= 1) bullets.push({x: player.x + player.w, y: player.y + player.h, vx: 9, vy: 3, type: 'normal'});
         if(levels[6] >= 2 && Math.random() < 0.5) bullets.push({x: player.x + player.w - 5, y: player.y + player.h, vx: 9, vy: 2.5, type: 'normal'});
         if(levels[6] === 3 && Math.random() < 0.3) bullets.push({x: player.x + player.w - 10, y: player.y + player.h, vx: 9, vy: 3.5, type: 'normal'});
-        if(levels[7] > 0 && Math.random() < (0.07 * levels[7])) bullets.push({x: player.x + player.w, y: player.y - 50, vx: 12, vy: 0, type: 'mega', lv: levels[7]});
+        if(levels[7] > 0 && Math.random() < (0.07 * levels[7])) bullets.push({x: 0, y: player.y + player.h/2, vx: 12, vy: 0, type: 'mega', lv: levels[7]}); // 画面左端(後方の支援機位置)から発射、高さは自機に連動
     }
     
     for (let i = bullets.length - 1; i >= 0; i--) {
